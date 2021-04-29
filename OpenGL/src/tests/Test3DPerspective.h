@@ -21,9 +21,10 @@ namespace test
 	private:
 		float aspectRatio = 4.0f / 3.0f;
 		float scale = 1.0f;
+		int width = 1000, height = 1000;
 		glm::vec3 rotation;
 		glm::mat4 proj, view;
-		std::unique_ptr<Checkerboad> checkerboard;
-		std::unique_ptr<Material> material;
+		Checkerboad checkerboard;
+		Material bunny, teapot;
 	};
 }

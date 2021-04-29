@@ -505,6 +505,7 @@
     <None Include="res\shaders\basicMaterial.shader" />
     <None Include="res\obj\bunny.obj" />
     <None Include="res\shaders\checkerboard.shader" />
+    <None Include="res\obj\teapot.obj" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gl\Renderer.h">

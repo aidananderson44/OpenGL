@@ -58,7 +58,6 @@ void Material::EnsureGPUObjects() const
 		vertexArray = std::make_unique<VertexArray>();
 		int stride = vertexBufferLayout->GetStride();
 		std::vector<char> data(stride * positions->size());
-
 		for (int i = 0; i < positions->size(); i++)
 			FillData(&data[0] + i * stride, i, stride);
 
