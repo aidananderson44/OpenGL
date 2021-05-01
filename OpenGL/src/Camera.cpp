@@ -3,36 +3,100 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include <cmath>
 #define PI 3.14159265358979323846
+#define MIN(x, y) (x) < (y) ? (x) : (y)
+#define MAX(x, y) (x) > (y) ? (x) : (y)
 
-void Camera::MoveForward(float amount)
+
+Camera::Camera()
+	:projection(glm::perspective(glm::radians(90.0f), aspectRatio, 0.1f, 1000.0f))
 {
-	position += GetDirection() * amount * sensitivity;
 }
 
-void Camera::Strafe(float amount)
-{
-	glm::vec3 direction = GetDirection();
-	glm::vec3 perpendicularDirection(-direction.z, 0, direction.x);
-	position += perpendicularDirection * amount * sensitivity;
-}
-
-void Camera::Fly(float amount)
-{
-	position.y += amount * sensitivity;
-}
 
 void Camera::Look(float dx, float dy)
 {
 	theta = fmodf(theta - dx * sensitivity, 2 * PI);
-	phi = fmax(-PI / 2, fmin(PI / 2 - 0.001, phi - dy * sensitivity));
+	phi = fmax(-PI / 2 + 0.001, fmin(PI / 2 - 0.001, phi - dy * sensitivity));
 }
 
-glm::mat4 Camera::GetViewMatrix()
+glm::mat4 Camera::GetViewMatrix() const
 {
 	return glm::lookAt(position, position + GetDirection(), up);
 }
 
-glm::vec3 Camera::GetDirection()
+void Camera::Integrate(float dt)
+{
+    glm::vec3 direction = GetDirection();
+    glm::vec3 perpendicularDirection = glm::normalize(glm::vec3(-direction.z, 0, direction.x));
+    glm::vec3 newUp = glm::cross(perpendicularDirection, direction);
+
+    int forwardDirection = 0, flyDirection = 0, strafeDirection = 0;
+    if (moveForward && !moveBackward)
+        forwardDirection = 1;
+    else if (!moveForward && moveBackward)
+        forwardDirection = -1;
+
+    if (strafeRight && !strafeLeft)
+        strafeDirection = 1;
+    else if (!strafeRight && strafeLeft)
+        strafeDirection = -1;
+
+    if (flyUp && !flyDown)
+        flyDirection = 1;
+    else if (!flyUp && flyDown)
+        flyDirection = -1;
+
+    glm::vec3 forwardVelocity = direction * (moveSensitivity * forwardDirection);
+    glm::vec3 strafeVelocity = perpendicularDirection * (moveSensitivity * strafeDirection);
+    glm::vec3 flyVelocity = newUp * (moveSensitivity * flyDirection);
+	position += (forwardVelocity + strafeVelocity + flyVelocity) * dt;
+}
+
+void Camera::SetAspectRatio(float aspectRatio)
+{
+	this->aspectRatio = aspectRatio;
+	if (aspectRatio >= 1)
+		projection = glm::perspective(glm::radians(90.0f), aspectRatio, 0.1f, 50.0f);
+	else
+		projection = glm::perspective(glm::radians(90.0f), 1.0f / aspectRatio, 0.1f, 50.0f);
+}
+
+void Camera::SetWindowInput(Window::Key key, Window::Action action)
+{
+    switch (key)
+    {
+    case Window::Key::Forward:
+        moveForward = (action != Window::Action::Release);
+        break;
+    case Window::Key::Backward:
+        moveBackward = (action != Window::Action::Release);
+        break;
+    case Window::Key::StrafeLeft:
+        strafeLeft = (action != Window::Action::Release);
+        break;
+    case Window::Key::StrafeRight:
+        strafeRight = (action != Window::Action::Release);
+        break;
+    case Window::Key::FlyUp:
+        flyUp = (action != Window::Action::Release);
+        break;
+    case Window::Key::FlyDown:
+        flyDown = (action != Window::Action::Release);
+        break;
+    }
+}
+
+const glm::vec3& Camera::GetPosition() const
+{
+    return position;
+}
+
+const glm::mat4& Camera::GetProjectionMatrix() const
+{
+	return projection;
+}
+
+glm::vec3 Camera::GetDirection() const
 {
 	glm::mat4 rotation = glm::rotate(glm::rotate(glm::mat4(1.0f), theta, glm::vec3(0, 1, 0)), phi, glm::vec3(1, 0, 0));
 	return rotation * forward;

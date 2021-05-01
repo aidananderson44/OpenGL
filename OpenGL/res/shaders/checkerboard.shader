@@ -31,15 +31,32 @@ in vec3 normalFrag;
 in vec3 fragPos;
 in float fragType;
 uniform vec4 u_Color;
+uniform vec3 cameraPosition;
 uniform sampler2D u_Texture;
-const vec3 lightPosition = vec3(-5.0f, 5.0f, 5.0f);
-const vec3 lightColor = vec3(0.3f, 0.3f, 0.3f);
+const vec3 lightPosition = vec3(-5.0f, 10.0f, 5.0f);
+const vec3 lightColor = vec3(1.0f, 1.0f, 1.0f);
+const vec3 ambientColor = vec3(0.0f, 1.0f, 0.0f);
 const float ambientStrength = 0.1f;
-
+const float specularPower = 0.1;
+const float diffusePower = 0.1;
 
 void main()
 {
 	vec3 ambientColor = vec3(fragType, fragType, fragType);
+	vec3 ambient = ambientColor * ambientStrength;
+	vec3 lightDirection = normalize(lightPosition - fragPos);
+	float distanceFromLight = length(lightPosition - fragPos) / 20;
+
+	vec3 cameraDirection = normalize(cameraPosition - fragPos);
+	vec3 norm = normalize(normalFrag);
+	vec3 reflection = reflect(-lightDirection, norm);
+	vec3 specular = clamp(dot(cameraDirection, reflection), 0, 1) * lightColor * specularPower / (distanceFromLight * distanceFromLight);
+
+	vec3 diffuse = max(dot(norm, lightDirection), 0.0f) * lightColor * diffusePower / (distanceFromLight * distanceFromLight);
+	color = vec4(diffuse + ambient + specular, 1.0f);
+
+
+	/*
 	vec3 ambient = ambientColor * ambientStrength;
 	vec3 lightDirection = normalize(lightPosition - fragPos);
 	vec3 norm = normalize(normalFrag);
@@ -47,5 +64,5 @@ void main()
 	vec3 diffuse = max(dot(norm, lightDirection), 0.0f) * lightColor;
 	color = vec4(diffuse + ambient, 1.0f);
 	//color = vec4(fragType, fragType, fragType, 1.0f);
-	
+	*/
 };

@@ -45,14 +45,18 @@ int main(void)
         test::Test* currentTest = nullptr;
         window.AddSizeChangedCallBack([&currentTest](const Window&, int width, int height)
         {
-            if (currentTest != nullptr)
-                currentTest->SetAspectRatio((float)width / (float)height);
+            currentTest->OnSizeChange(width, height);
             glViewport(0, 0, width, height);
         });
 
         window.AddMouseMoveCallBack([&currentTest](const Window&, double xDiff, double yDiff)
         {
-            currentTest->MouseMove(xDiff, yDiff);
+            currentTest->OnMouseMove(xDiff, yDiff);
+        });
+
+        window.AddKeyPressCallBack([&currentTest](const Window&, Window::Key key, Window::Action action)
+        {
+            currentTest->OnKeyChange(key, action);
         });
 
         test::TestMenu* testMenu = new test::TestMenu(currentTest);
@@ -76,7 +80,7 @@ int main(void)
             ImGui::NewFrame();
             if (currentTest)
             {
-                currentTest->OnUpdate(0);
+                currentTest->OnUpdate(1);
                 currentTest->OnRender();
                 ImGui::Begin("Test");
                 if (currentTest != testMenu && ImGui::Button("<-"))
@@ -88,6 +92,7 @@ int main(void)
                 ImGui::End();
             }
             ImGui::Render();
+
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
             window.SwapBuffers();
         }

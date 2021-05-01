@@ -6,6 +6,7 @@ class VertexArray;
 class IndexBuffer;
 class Shader;
 class Material;
+class Camera;
 
 #define ASSERT(x) if(!(x)) __debugbreak();
 #define GLCall(x) GLClearError();\
@@ -21,6 +22,7 @@ class Renderer
 public:
     void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const;
     void Draw(const Material& material, const glm::mat4& view, const glm::mat4& projection) const;
+    void Draw(const Material& material, const Camera& view) const;
     void Clear() const;
 };
 

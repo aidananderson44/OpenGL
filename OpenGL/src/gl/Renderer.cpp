@@ -4,7 +4,7 @@
 #include "IndexBuffer.h"
 #include "Shader.h"
 #include "materials/Material.h"
-
+#include "Camera.h"
 
 void GLClearError()
 {
@@ -35,6 +35,14 @@ void Renderer::Draw(const Material& material, const glm::mat4 &view, const glm::
 {
     material.GetShader().Bind();
     material.GetShader().SetMVP(material.GetModelMatrix(), view, projection);
+    Draw(material.GetVertexArray(), material.GetIndexBuffer(), material.GetShader());
+}
+
+void Renderer::Draw(const Material& material, const Camera& camera) const
+{
+    material.GetShader().Bind();
+    material.GetShader().SetMVP(material.GetModelMatrix(), camera.GetViewMatrix(), camera.GetProjectionMatrix());
+    material.GetShader().SetCameraPosition(camera.GetPosition());
     Draw(material.GetVertexArray(), material.GetIndexBuffer(), material.GetShader());
 }
 

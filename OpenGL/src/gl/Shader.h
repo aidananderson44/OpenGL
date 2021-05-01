@@ -23,9 +23,11 @@ public:
 	void Bind() const;
 	void UnBind() const;
 	void SetMVP(const glm::mat4& model, const glm::mat4& view, const glm::mat4& projection) const;
+	void SetCameraPosition(const glm::vec3& position) const;
 	void SetUniform1i(const std::string& name, int v0) const;
 	void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3) const;
 	void SetUniformMat4f(const std::string& name, const glm::mat4& mat) const;
+	void SetUniform3f(const std::string& name, const glm::vec3& vec) const;
 private:
 	ShaderProgramSource ParseShader(const std::string& filePath);
 	unsigned int CompileShader(unsigned int type, const std::string& source);

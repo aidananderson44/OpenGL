@@ -24,18 +24,72 @@ Window::Window()
         }
     });
 
-    glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
+    glfwSetKeyCallback(window, [](GLFWwindow* window, int glfwKey, int scancode, int glfwAction, int mods)
     {
         Window* thisWindow = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
-        if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+        if (glfwKey == GLFW_KEY_ESCAPE && glfwAction == GLFW_RELEASE)
             thisWindow->SetCursorVisible(true);
+        else if (glfwKey == GLFW_KEY_ENTER && glfwAction == GLFW_RELEASE)
+            thisWindow->SetCursorVisible(false);
+        Key key;
+        switch (glfwKey)
+        {
+        case GLFW_KEY_W:
+        case GLFW_KEY_UP:
+            key = Key::Forward;
+            break;
+        case GLFW_KEY_S:
+        case GLFW_KEY_DOWN:
+            key = Key::Backward;
+            break;
+        case GLFW_KEY_A:
+        case GLFW_KEY_LEFT:
+            key = Key::StrafeLeft;
+            break;
+        case GLFW_KEY_D:
+        case GLFW_KEY_RIGHT:
+            key = Key::StrafeRight;
+            break;
+        case GLFW_KEY_SPACE:
+            key = Key::FlyUp;
+            break;
+        case GLFW_KEY_LEFT_CONTROL:
+            key = Key::FlyDown;
+            break;
+        default:
+            key = Key::None;
+            break;
+        }
+        Action action;
+        switch (glfwAction)
+        {
+        case GLFW_PRESS:
+            action = Action::Press;
+            break;
+        case GLFW_RELEASE:
+            action = Action::Release;
+            break;
+        case GLFW_REPEAT:
+            action = Action::Repeat;
+            break;
+        default:
+            action = Action::None;
+            break;
+        }
+
+        if (key != Key::None && action != Action::None)
+        {
+            for (auto& callback : thisWindow->keyPressCallbacks)
+                callback(*thisWindow, key, action);
+        }
+
     });
 
     glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods)
     {
-        Window* thisWindow = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
-        if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS )
-            thisWindow->SetCursorVisible(false);
+      //  Window* thisWindow = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
+       // if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS )
+        //    thisWindow->SetCursorVisible(false);
     });
 }
 
@@ -100,4 +154,9 @@ void Window::AddSizeChangedCallBack(const std::function<void(const Window&, int,
 void Window::AddMouseMoveCallBack(const std::function<void(const Window&, double, double)>& callback)
 {
     mouseMoveCallbacks.push_back(callback);
+}
+
+void Window::AddKeyPressCallBack(const std::function<void(const Window&, Key key, Action action)>& callback)
+{
+    keyPressCallbacks.push_back(callback);
 }

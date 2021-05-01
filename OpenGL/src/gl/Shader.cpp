@@ -41,6 +41,11 @@ void Shader::SetMVP(const glm::mat4& model, const glm::mat4& view, const glm::ma
     SetUniformMat4f("projection", projection);
 }
 
+void Shader::SetCameraPosition(const glm::vec3& position) const
+{
+    SetUniform3f("cameraPosition", position);
+}
+
 void Shader::SetUniform1i(const std::string& name, int v0) const
 {
     GLCall(glUniform1i(GetUniformLocation(name), v0));
@@ -54,6 +59,11 @@ void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2,
 void Shader::SetUniformMat4f(const std::string& name, const glm::mat4& matrix) const
 {
     GLCall(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &matrix[0][0]));
+}
+
+void Shader::SetUniform3f(const std::string& name, const glm::vec3& vec) const
+{
+    GLCall(glUniform3f(GetUniformLocation(name), vec.x, vec.y, vec.z));
 }
 
 unsigned int Shader::CompileShader(unsigned int type, const std::string& source)
