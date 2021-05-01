@@ -16,6 +16,7 @@
 #include "tests/TestTexture2DWithMaterial.h"
 #include "tests/Test3DMaterial.h"
 #include "tests/Test3DPerspective.h"
+#include "tests/Test3DPerspectiveWithCamera.h"
 int main(void)
 {
     /* Initialize the library */
@@ -49,6 +50,11 @@ int main(void)
             glViewport(0, 0, width, height);
         });
 
+        window.AddMouseMoveCallBack([&currentTest](const Window&, double xDiff, double yDiff)
+        {
+            currentTest->MouseMove(xDiff, yDiff);
+        });
+
         test::TestMenu* testMenu = new test::TestMenu(currentTest);
         currentTest = testMenu;
         testMenu->RegisterTest<test::TestClearColor>("Clear Color");
@@ -56,6 +62,7 @@ int main(void)
         testMenu->RegisterTest<test::TestTexture2DWithMaterial>("2D texture With Material");
         testMenu->RegisterTest<test::Test3DMaterial>("3D Material");
         testMenu->RegisterTest<test::Test3DPerspective>("3D Perspective");
+        testMenu->RegisterTest<test::Test3DPerspectiveWithCamera>("3D Perspective with camera");
 
         /* Loop until the user closes the window */
         while (!window.IsClosing())

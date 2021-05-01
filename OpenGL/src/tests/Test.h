@@ -17,6 +17,11 @@ namespace test
 		virtual void OnRender() {}
 		virtual void OnImGUIRender() {}
 		virtual void SetAspectRatio(float aspectRatio) {}
+		virtual void MouseMove(float dx, float dy) {}
+		virtual void MoveForward(float amount) {}
+		virtual void Strafe(float amount) {}
+		virtual void Fly(float amount) {}
+
 	};
 
 	class TestMenu : public Test

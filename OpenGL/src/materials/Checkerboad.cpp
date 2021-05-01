@@ -35,6 +35,7 @@ Checkerboad::Checkerboad(int width, int height)
 			indexCount += 4;
 		}
 	}
+	SetShaderFromPath("res/shaders/checkerboard.shader");
 }
 
 Checkerboad::Checkerboad(const Checkerboad& other)

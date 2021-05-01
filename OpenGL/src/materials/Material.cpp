@@ -143,7 +143,7 @@ void SetTextureUniform(const Shader& shader, const std::vector<std::pair<std::st
 	{
 		shader.Bind();
 		textures[i].second.Bind();
-		shader.SetUniform1i(textures[i].first, 0);
+		shader.SetUniform1i(textures[i].first, i);
 	}
 }
 
