@@ -56,9 +56,8 @@ void test::TestTexture2DWithMaterial::OnUpdate(float deltaTime)
 {
 }
 
-void test::TestTexture2DWithMaterial::OnRender()
+void test::TestTexture2DWithMaterial::OnRender(const Renderer& renderer)
 {
-    Renderer renderer;
     renderer.Clear();
     material->ResetModelMatrix();
     material->Translate(translation);

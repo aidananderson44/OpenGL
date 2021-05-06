@@ -4,6 +4,8 @@
 #include<string>
 #include<sstream>
 #include "Renderer.h"
+#include "GLMarco.h"
+#include <GL/glew.h>
 Shader::Shader(const std::string& filename)
 	:m_FilePath(filename)
 {

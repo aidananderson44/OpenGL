@@ -17,7 +17,7 @@ namespace test
 		~TestTexture2D();
 
 		void OnUpdate(float deltaTime) override;
-		void OnRender() override;
+		void OnRender(const Renderer& renderer) override;
 		void OnImGUIRender() override;
 	private:
 		const float aspectRatio = 4.0f / 3.0f;

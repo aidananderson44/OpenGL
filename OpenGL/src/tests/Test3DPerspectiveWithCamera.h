@@ -14,7 +14,7 @@ namespace test
 		Test3DPerspectiveWithCamera();
 		~Test3DPerspectiveWithCamera();
 
-		void OnRender() override;
+		void OnRender(const Renderer& renderer) override;
 		void OnImGUIRender() override;
 		Camera* GetCamera() override;
 		

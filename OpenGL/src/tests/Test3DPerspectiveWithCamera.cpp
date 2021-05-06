@@ -24,9 +24,8 @@ test::Test3DPerspectiveWithCamera::~Test3DPerspectiveWithCamera()
 {
 }
 
-void test::Test3DPerspectiveWithCamera::OnRender()
+void test::Test3DPerspectiveWithCamera::OnRender(const Renderer& renderer)
 {
-    Renderer renderer;
     renderer.Clear();
     renderer.Draw(checkerboard, camera);
     renderer.Draw(bunny, camera);

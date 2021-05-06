@@ -13,7 +13,7 @@ namespace test
 		~Test3DMaterial();
 
 		void OnUpdate(float deltaTime) override;
-		void OnRender() override;
+		void OnRender(const Renderer& renderer) override;
 		void OnImGUIRender() override;
 		void SetAspectRatio(float aspectRatio) override;
 		

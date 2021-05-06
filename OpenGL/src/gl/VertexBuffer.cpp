@@ -1,5 +1,7 @@
 #include "VertexBuffer.h"
 #include "Renderer.h"
+#include "GLMarco.h"
+#include <GL/glew.h>
 VertexBuffer::VertexBuffer(const void* data, unsigned int size)
 {
     GLCall(glGenBuffers(1, &m_RendererID));

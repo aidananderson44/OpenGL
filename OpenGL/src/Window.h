@@ -6,7 +6,7 @@
 class Window
 {
 public:
-	static enum class Key
+	enum class Key
 	{
 		Forward,
 		Backward,
@@ -17,7 +17,7 @@ public:
 		None
 	};
 
-	static enum class Action
+	enum class Action
 	{
 		Press = 0,
 		Release = 1,
@@ -29,10 +29,10 @@ public:
 	~Window();
 	GLFWwindow* GetWindow() { return window; }
 	void SetSize(int width, int height);
-	int GetWidth();
-	int GetSize();
-	bool IsClosing();
-	void SwapBuffers();
+	int GetWidth() const;
+	int GetHeight() const;
+	bool IsClosing() const;
+	void SwapBuffers() const;
 	void SetCursorVisible(bool isVisible);
 
 
@@ -47,7 +47,7 @@ private:
 	std::vector<std::function<void(const Window&, int, int)>> resizeCallbacks;
 	std::vector<std::function<void(const Window&, int, int)>> mouseMoveCallbacks;
 	std::vector<std::function<void(const Window&, Key, Action)>> keyPressCallbacks;
-	int width = 640, height = 480;
+	mutable int width = 640, height = 480;
 	double mouseXPos = -1;
 	double mouseYPos = -1;
 	bool showingCursor = true;

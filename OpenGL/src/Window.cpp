@@ -1,7 +1,11 @@
 #include "Window.h"
-
+#include <iostream>
 Window::Window()
 {
+    if (!glfwInit())
+    {
+        std::cout << "Error initializing glfw!" << std::endl;
+    }
     window = glfwCreateWindow(width, height, "", NULL, NULL);
     glfwMakeContextCurrent(window);
     glfwSetWindowUserPointer(window, this);
@@ -18,7 +22,7 @@ Window::Window()
         if (!thisWindow->showingCursor)
         {
             for (auto& callback : thisWindow->mouseMoveCallbacks)
-                callback(*thisWindow, xPos - thisWindow->mouseXPos, yPos - thisWindow->mouseYPos);
+                callback(*thisWindow, (int)(xPos - thisWindow->mouseXPos), (int)(yPos - thisWindow->mouseYPos));
             thisWindow->mouseXPos = xPos;
             thisWindow->mouseYPos = yPos;
         }
@@ -105,24 +109,24 @@ void Window::SetSize(int width, int height)
     this->height = height;
 }
 
-int Window::GetWidth()
+int Window::GetWidth() const
 {
     glfwGetWindowSize(window, &width, &height);
     return width;
 }
 
-int Window::GetSize()
+int Window::GetHeight() const
 {
     glfwGetWindowSize(window, &width, &height);
     return height;
 }
 
-bool Window::IsClosing()
+bool Window::IsClosing() const
 {
     return glfwWindowShouldClose(window);
 }
 
-void Window::SwapBuffers()
+void Window::SwapBuffers() const
 {
     glfwSwapBuffers(window);
     glfwPollEvents();

@@ -59,9 +59,8 @@ void test::TestTexture2D::OnUpdate(float deltaTime)
 {
 }
 
-void test::TestTexture2D::OnRender()
+void test::TestTexture2D::OnRender(const Renderer& renderer)
 {
-    Renderer renderer;
 	GLCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
 	GLCall(glClear(GL_COLOR_BUFFER_BIT));
     glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);

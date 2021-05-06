@@ -32,9 +32,8 @@ void test::Test3DPerspective::OnUpdate(float deltaTime)
 {
 }
 
-void test::Test3DPerspective::OnRender()
+void test::Test3DPerspective::OnRender(const Renderer& renderer)
 {
-    Renderer renderer;
     renderer.Clear();
     view = glm::lookAt(rotation * scale, glm::vec3(0, 0, 0), glm::vec3(0.0f, 1.0f, 0.0f));
     renderer.Draw(checkerboard, view, proj);
@@ -45,7 +44,7 @@ void test::Test3DPerspective::OnRender()
 void test::Test3DPerspective::OnImGUIRender()
 {
     static float f = 0.0f;
-    ImGui::SliderFloat3("Translation", &rotation.x, -3.1415, 3.1415, "", 1.0f);
+    ImGui::SliderFloat3("Translation", &rotation.x, -3.1415f, 3.1415f, "", 1.0f);
     ImGui::SliderFloat("Scale", &scale, 0, 5, "", 1.0f);
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 }

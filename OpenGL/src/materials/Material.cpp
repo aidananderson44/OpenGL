@@ -58,7 +58,7 @@ void Material::EnsureGPUObjects() const
 		vertexArray = std::make_unique<VertexArray>();
 		int stride = vertexBufferLayout->GetStride();
 		std::vector<char> data(stride * positions->size());
-		for (int i = 0; i < positions->size(); i++)
+		for (unsigned int i = 0; i < positions->size(); i++)
 			FillData(&data[0] + i * stride, i, stride);
 
 		vertexBuffer = std::make_unique<VertexBuffer>(&data[0], stride * positions->size());
@@ -139,10 +139,10 @@ const Shader& Material::GetShader() const
 
 void SetTextureUniform(const Shader& shader, const std::vector<std::pair<std::string, Texture>>& textures)
 {
-	for (int i = 0; i < textures.size(); i++)
+	for (unsigned int i = 0; i < textures.size(); i++)
 	{
 		shader.Bind();
-		textures[i].second.Bind();
+		textures[i].second.Bind(i);
 		shader.SetUniform1i(textures[i].first, i);
 	}
 }
@@ -183,7 +183,7 @@ void Material::FillData(char* data) const
 {
 	EnsureVertexBufferLayout();
 	int stride = vertexBufferLayout->GetStride();
-	for (int i = 0; i < positions->size(); i++)
+	for (unsigned int i = 0; i < positions->size(); i++)
 		FillData(data + i * stride, i, stride);
 }
 

@@ -23,9 +23,8 @@ void test::Test3DMaterial::OnUpdate(float deltaTime)
 {
 }
 
-void test::Test3DMaterial::OnRender()
+void test::Test3DMaterial::OnRender(const Renderer& renderer)
 {
-    Renderer renderer;
     renderer.Clear();
     material->ResetModelMatrix();
     material->Translate(glm::vec3(0.0f, -1.0f, 0.0f));
@@ -40,7 +39,7 @@ void test::Test3DMaterial::OnRender()
 void test::Test3DMaterial::OnImGUIRender()
 {
     static float f = 0.0f;
-    ImGui::SliderFloat3("Translation", &rotation.x, -3.1415, 3.1415, "", 1.0f);
+    ImGui::SliderFloat3("Translation", &rotation.x, -3.1415f, 3.1415f, "", 1.0f);
     ImGui::SliderFloat("Scale", &scale, 0, 20, "", 1.0f);
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 }

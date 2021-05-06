@@ -8,15 +8,15 @@
 
 
 Camera::Camera()
-	:projection(glm::perspective(glm::radians(90.0f), aspectRatio, 0.1f, 1000.0f))
+	:projection(glm::perspective(glm::radians(90.0f), aspectRatio, 0.1f, 100.0f))
 {
 }
 
 
 void Camera::Look(float dx, float dy)
 {
-	theta = fmodf(theta - dx * sensitivity, 2 * PI);
-	phi = fmax(-PI / 2 + 0.001, fmin(PI / 2 - 0.001, phi - dy * sensitivity));
+	theta = fmodf(theta - dx * sensitivity, (float)(2 * PI));
+	phi = (float)fmax(-PI / 2 + 0.001, (float)fmin(PI / 2 - 0.001, phi - dy * sensitivity));
 }
 
 glm::mat4 Camera::GetViewMatrix() const
@@ -56,9 +56,9 @@ void Camera::SetAspectRatio(float aspectRatio)
 {
 	this->aspectRatio = aspectRatio;
 	if (aspectRatio >= 1)
-		projection = glm::perspective(glm::radians(90.0f), aspectRatio, 0.1f, 50.0f);
+		projection = glm::perspective(glm::radians(90.0f), aspectRatio, 0.1f, 100.0f);
 	else
-		projection = glm::perspective(glm::radians(90.0f), 1.0f / aspectRatio, 0.1f, 50.0f);
+		projection = glm::perspective(glm::radians(90.0f), 1.0f / aspectRatio, 0.1f, 100.0f);
 }
 
 void Camera::SetWindowInput(Window::Key key, Window::Action action)

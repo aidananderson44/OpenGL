@@ -52,7 +52,7 @@ void Checkerboad::AddToBufferLayout(VertexBufferLayout& layout) const
 
 void Checkerboad::FillData(char* data, int index, int end) const
 {
-	float result = (((index / 4) + (index / (4 * width))) % 2);
+	float result = (float)(((index / 4) + (index / (4 * width))) % 2);
 	memcpy(data + end - sizeof(float), &result, sizeof(float));
 	Material::FillData(data, index, end - sizeof(float));
 }

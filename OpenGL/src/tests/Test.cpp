@@ -1,30 +1,6 @@
 #include "Test.h"
 #include"imgui/imgui.h"
 
-
-test::TestMenu::TestMenu(Test*& currentTestPointer)
-	: m_CurrentTest(currentTestPointer)
-{
-
-}
-
-test::TestMenu::~TestMenu()
-{
-}
-
-
-
-void test::TestMenu::OnImGUIRender()
-{
-	for (auto& test : m_Tests)
-	{
-		if (ImGui::Button(test.first.c_str()))
-		{
-			m_CurrentTest = test.second();
-		}
-	}
-}
-
 void test::Test::OnUpdate(float deltaTime)
 {
 	Camera* camera = GetCamera();
@@ -50,5 +26,5 @@ void test::Test::OnMouseMove(double xDif, double yDif)
 {
 	Camera* camera = GetCamera();
 	if (camera != nullptr)
-		camera->Look(xDif, yDif);
+		camera->Look((float)xDif, (float)yDif);
 }
