@@ -540,6 +540,7 @@
     <None Include="res\obj\teapot.obj" />
     <None Include="res\shaders\basic3D.shader" />
     <None Include="res\shaders\3DLightAndShadows.shader" />
+    <None Include="res\shaders\checkerboardWithShadow.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gl\Renderer.h">

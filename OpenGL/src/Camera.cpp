@@ -16,6 +16,7 @@ Camera::Camera()
 
 void Camera::Look(float dx, float dy)
 {
+    lookAt = false;
     thetaVelocity = dx;
     phiVelocity = dy;
 }
@@ -23,8 +24,12 @@ void Camera::Look(float dx, float dy)
 
 glm::mat4 Camera::GetViewMatrix() const
 {
-    glm::vec3 target = position + GetDirection();
-	return glm::lookAt(position, position + GetDirection(), up);
+    glm::vec3 target;
+    if (lookAt)
+        target = lookAtVec;
+    else
+        target = position + GetDirection();
+	return glm::lookAt(position, target, up);
 }
 
 void Camera::Integrate(float dt)
@@ -118,6 +123,8 @@ void Camera::MoveTo(const glm::vec3& position)
 
 void Camera::LookAt(const glm::vec3& pointOfInterest)
 {
+    lookAt = true;
+    lookAtVec = pointOfInterest;
 	glm::vec3 direction = glm::normalize(pointOfInterest - this->position);
 	theta = std::atan2f(direction.x, direction.z);
     

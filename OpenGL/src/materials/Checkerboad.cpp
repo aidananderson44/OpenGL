@@ -29,8 +29,8 @@ Checkerboad::Checkerboad(int width, int height)
 			indices->push_back(indexCount + 1);
 			indices->push_back(indexCount + 2);
 			indices->push_back(indexCount + 2);
-			indices->push_back(indexCount + 3);
 			indices->push_back(indexCount + 1);
+			indices->push_back(indexCount + 3);
 
 			indexCount += 4;
 		}

@@ -15,12 +15,14 @@ namespace test
 		Test3DShadows();
 		~Test3DShadows();
 
+		void OnUpdate(float dt) override;
 		void OnRender(const Renderer& renderer) override;
 		void OnImGUIRender() override;
 		void OnSizeChange(int width, int height) override;
 		Camera* GetCamera() override;
 		
 	private:
+		float totalTime = 0;
 		bool viewFromLight = false;
 		float scale = 1.0f;
 		int width = 100, height = 100;

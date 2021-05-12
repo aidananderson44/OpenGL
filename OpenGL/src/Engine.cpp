@@ -12,6 +12,7 @@ Engine::Engine()
     if (glewInit() != GLEW_OK)
         std::cout << "Error initializing GLEW!" << std::endl;
     GLCall(glEnable(GL_BLEND));
+    
     GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
     glEnable(GL_DEPTH_TEST);
 
