@@ -108,6 +108,21 @@
     <ClCompile Include="src\gl\GLMarco.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\materials\Quad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gl\DepthTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gl\ColorTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LightSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tests\Test3DShadows.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\basic.shader" />
@@ -519,11 +534,12 @@
     <None Include="src\vendor\glm\gtx\wrap.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="res\shaders\basic3D.shader" />
     <None Include="res\shaders\basicMaterial.shader" />
     <None Include="res\obj\bunny.obj" />
     <None Include="res\shaders\checkerboard.shader" />
     <None Include="res\obj\teapot.obj" />
+    <None Include="res\shaders\basic3D.shader" />
+    <None Include="res\shaders\3DLightAndShadows.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gl\Renderer.h">
@@ -1466,6 +1482,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\gl\GLMarco.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\materials\Quad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gl\DepthTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gl\ColorTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LightSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tests\Test3DShadows.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

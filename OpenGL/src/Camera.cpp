@@ -9,18 +9,21 @@
 
 Camera::Camera()
 	:projection(glm::perspective(glm::radians(90.0f), aspectRatio, 0.1f, 100.0f))
+   // :projection(glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.1f, 50.0f))
 {
 }
 
 
 void Camera::Look(float dx, float dy)
 {
-	theta = fmodf(theta - dx * sensitivity, (float)(2 * PI));
-	phi = (float)fmax(-PI / 2 + 0.001, (float)fmin(PI / 2 - 0.001, phi - dy * sensitivity));
+    thetaVelocity = dx;
+    phiVelocity = dy;
 }
+
 
 glm::mat4 Camera::GetViewMatrix() const
 {
+    glm::vec3 target = position + GetDirection();
 	return glm::lookAt(position, position + GetDirection(), up);
 }
 
@@ -50,6 +53,11 @@ void Camera::Integrate(float dt)
     glm::vec3 strafeVelocity = perpendicularDirection * (moveSensitivity * strafeDirection);
     glm::vec3 flyVelocity = newUp * (moveSensitivity * flyDirection);
 	position += (forwardVelocity + strafeVelocity + flyVelocity) * dt;
+
+    theta = fmodf(theta - thetaVelocity * sensitivity * dt, (float)(2 * PI));
+    phi = (float)fmax(-PI / 2 + 0.001, (float)fmin(PI / 2 - 0.001, phi - phiVelocity * sensitivity * dt));
+    thetaVelocity = 0;
+    phiVelocity = 0;
 }
 
 void Camera::SetAspectRatio(float aspectRatio)
@@ -112,5 +120,6 @@ void Camera::LookAt(const glm::vec3& pointOfInterest)
 {
 	glm::vec3 direction = glm::normalize(pointOfInterest - this->position);
 	theta = std::atan2f(direction.x, direction.z);
-	phi = std::atan2(direction.y, direction.z);
+    
+	phi = std::atan2f(direction.y, direction.z);
 }

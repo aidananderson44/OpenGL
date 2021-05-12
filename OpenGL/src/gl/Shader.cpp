@@ -6,6 +6,8 @@
 #include "Renderer.h"
 #include "GLMarco.h"
 #include <GL/glew.h>
+#include "LightSource.h"
+
 Shader::Shader(const std::string& filename)
 	:m_FilePath(filename)
 {
@@ -46,6 +48,13 @@ void Shader::SetMVP(const glm::mat4& model, const glm::mat4& view, const glm::ma
 void Shader::SetCameraPosition(const glm::vec3& position) const
 {
     SetUniform3f("cameraPosition", position);
+}
+
+void Shader::SetLightSource(const LightSource& lightSource) const
+{
+    SetUniform3f("lightPosition", lightSource.GetPosition());
+    SetUniform3f("lightColor", lightSource.Color);
+    SetUniformMat4f("lightViewProj", lightSource.GetProjectionMatrix() * lightSource.GetViewMatrix());
 }
 
 void Shader::SetUniform1i(const std::string& name, int v0) const

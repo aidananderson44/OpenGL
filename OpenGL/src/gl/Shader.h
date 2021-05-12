@@ -8,6 +8,9 @@ struct ShaderProgramSource
 	std::string FragmentSource;
 };
 
+class LightSource;
+class Texture;
+
 class Shader
 {
 private:
@@ -24,6 +27,8 @@ public:
 	void UnBind() const;
 	void SetMVP(const glm::mat4& model, const glm::mat4& view, const glm::mat4& projection) const;
 	void SetCameraPosition(const glm::vec3& position) const;
+	void SetLightSource(const LightSource& lightSource) const;
+	inline const std::string ShadowMapName() const { return "shadowMap"; }
 	void SetUniform1i(const std::string& name, int v0) const;
 	void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3) const;
 	void SetUniformMat4f(const std::string& name, const glm::mat4& mat) const;

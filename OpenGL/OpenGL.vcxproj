@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\LightSource.cpp" />
+    <ClCompile Include="src\gl\ColorTexture.cpp" />
+    <ClCompile Include="src\gl\DepthTexture.cpp" />
+    <ClCompile Include="src\materials\Quad.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\gl\FrameBuffer.cpp" />
     <ClCompile Include="src\Camera.cpp" />
@@ -33,6 +37,7 @@
     <ClCompile Include="src\tests\Test3DMaterial.cpp" />
     <ClCompile Include="src\tests\Test3DPerspective.cpp" />
     <ClCompile Include="src\tests\Test3DPerspectiveWithCamera.cpp" />
+    <ClCompile Include="src\tests\Test3DShadows.cpp" />
     <ClCompile Include="src\tests\TestClearColor.cpp" />
     <ClCompile Include="src\tests\TestTexture2D.cpp" />
     <ClCompile Include="src\tests\TestTexture2DWithMaterial.cpp" />
@@ -52,14 +57,12 @@
     <ClCompile Include="src\tests\TestSelection.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\shaders\3DLightAndShadows.shader" />
     <None Include="res\shaders\basic.shader">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
     </None>
-    <None Include="res\shaders\basic3D.shader">
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
-    </None>
+    <None Include="res\shaders\basic3D.shader" />
     <None Include="res\shaders\basicMaterial.shader">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
@@ -203,6 +206,10 @@
     <None Include="src\vendor\glm\gtx\wrap.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\LightSource.h" />
+    <ClInclude Include="src\gl\ColorTexture.h" />
+    <ClInclude Include="src\gl\DepthTexture.h" />
+    <ClInclude Include="src\materials\Quad.h" />
     <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\gl\FrameBuffer.h" />
     <ClInclude Include="src\Camera.h" />
@@ -216,6 +223,7 @@
     <ClInclude Include="src\tests\Test3DMaterial.h" />
     <ClInclude Include="src\tests\Test3DPerspective.h" />
     <ClInclude Include="src\tests\Test3DPerspectiveWithCamera.h" />
+    <ClInclude Include="src\tests\Test3DShadows.h" />
     <ClInclude Include="src\tests\TestClearColor.h" />
     <ClInclude Include="src\tests\TestTexture2D.h" />
     <ClInclude Include="src\tests\TestTexture2DWithMaterial.h" />
@@ -527,6 +535,8 @@
   <ItemGroup>
     <None Include="res\obj\bunny.obj">
       <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
     </None>
   </ItemGroup>
   <ItemGroup>

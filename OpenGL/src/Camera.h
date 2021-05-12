@@ -21,19 +21,20 @@ public:
 private:
 	float aspectRatio = 4.0f / 3.0f;
 	glm::vec3 GetDirection() const;
-	float sensitivity = 0.01f;
-	float moveSensitivity = 0.1f;
+	float sensitivity = 0.001f;
+	float moveSensitivity = 0.01f;
 	glm::vec3 position = glm::vec3(0, 0, 0);
 	float theta = 0, phi = 0;
+	float thetaVelocity = 0, phiVelocity = 0;
+
 	glm::vec3 up = glm::vec3(0, 1, 0);
 	const glm::vec4 forward = glm::vec4(0, 0, -1, 0);
 	bool strafeLeft = false, strafeRight = false;
 	bool moveForward = false, moveBackward = false;
 	bool flyUp = false, flyDown = false;
 
-	//glm::vec3 forwardVelocity = glm::vec3(0, 0, 0);
-	//glm::vec3 strafeVelocity = glm::vec3(0, 0, 0);
-	//glm::vec3 flyVelocity = glm::vec3(0, 0, 0);
+
+	
 	glm::mat4 projection;
 };
 

@@ -1,6 +1,7 @@
 #pragma once
-#include "Texture.h"
-class Texture;
+#include "ColorTexture.h"
+#include "DepthTexture.h"
+#include <memory>
 class FrameBuffer
 {
 public:
@@ -10,13 +11,15 @@ public:
 	void Bind() const;
 	static void UnBind();
 	
-	const Texture& GetTexture();
+	const std::shared_ptr<ColorTexture>& GetColorTexture() const;
+	const std::shared_ptr<DepthTexture>& GetDepthTexture() const;
 	int GetWidth();
 	int GetHeight();
 
 private:
 	int width, height;
 	unsigned int rendererID;
-	Texture texture;
+	std::shared_ptr<ColorTexture> colorTexture;
+	std::shared_ptr<DepthTexture> depthTexture;
 };
 

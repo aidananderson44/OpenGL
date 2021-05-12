@@ -26,9 +26,10 @@ public:
 	const VertexArray& GetVertexArray() const;
 	const IndexBuffer& GetIndexBuffer() const;
 	const VertexBufferLayout& GetVertexBufferLayout() const;
-	const Texture& GetTexture(const std::string &name) const;
+	const std::shared_ptr<Texture> GetTexture(const std::string &name) const;
 	const Shader& GetShader() const;
-	void AddTexture(const std::string &name, const Texture&texture);
+	void Bind() const;
+	void AddTexture(const std::string &name, const std::shared_ptr<Texture> texture);
 	void AddTextureFromPath(const std::string& name, const std::string& texturePath);
 	void SetShader(const Shader &shader);
 	void SetShaderFromPath(const std::string& shaderPath);
@@ -52,7 +53,7 @@ private:
 	mutable std::unique_ptr<VertexBufferLayout> vertexBufferLayout = nullptr;
 
 	std::unique_ptr<Shader> shader;
-	std::vector<std::pair<std::string, Texture>> textures;
+	std::vector<std::pair<std::string, std::shared_ptr<Texture>>> textures;
 
 	glm::mat4 modelMatrix;
 

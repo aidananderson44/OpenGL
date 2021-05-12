@@ -41,7 +41,7 @@ test::TestTexture2D::TestTexture2D()
     
     shader = std::make_unique<Shader>("res/shaders/Basic.shader");
     shader->Bind();
-    texture = std::make_unique<Texture>("res/textures/opengl.png");
+    texture = std::make_unique<ColorTexture>("res/textures/opengl.png");
     texture->Bind();
     shader->SetUniform1i("u_Texture", 0);
 
@@ -63,6 +63,7 @@ void test::TestTexture2D::OnRender(const Renderer& renderer)
 {
 	GLCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
 	GLCall(glClear(GL_COLOR_BUFFER_BIT));
+    texture->Bind();
     glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);
     glm::mat4 mvp = proj * view * model;
 

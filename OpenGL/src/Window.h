@@ -32,13 +32,16 @@ public:
 	int GetWidth() const;
 	int GetHeight() const;
 	bool IsClosing() const;
-	void SwapBuffers() const;
+	void Refresh() const;
 	void SetCursorVisible(bool isVisible);
 
 
 	void AddSizeChangedCallBack(const std::function<void(const Window&, int, int)> &callback);
 	void AddMouseMoveCallBack(const std::function<void(const Window&, double, double)>& callback);
 	void AddKeyPressCallBack(const std::function<void(const Window&, Key key, Action action)>& callback);
+	double DeltaTime();
+
+	float UIScale() const;
 
 
 
@@ -51,5 +54,6 @@ private:
 	double mouseXPos = -1;
 	double mouseYPos = -1;
 	bool showingCursor = true;
+	mutable double lastTime;
 };
 

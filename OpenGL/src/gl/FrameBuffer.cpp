@@ -1,16 +1,23 @@
 #include "FrameBuffer.h"
 #include "Texture.h"
+#include "DepthTexture.h"
 #include "GLMarco.h"
 #include <GL/glew.h>
 #include <iostream>
 
 FrameBuffer::FrameBuffer(int width, int height)
-	: texture(width, height), rendererID(0), width(width), height(height)
+	: colorTexture(std::make_shared<ColorTexture>(width, height)), 
+	depthTexture(std::make_shared<DepthTexture>(width, height)), 
+	rendererID(0), width(width), height(height)
 {
 	GLCall(glGenFramebuffers(1, &rendererID));
 	GLCall(glBindFramebuffer(GL_FRAMEBUFFER, rendererID));
 
-	texture.AttachToFrameBuffer(*this);
+
+	colorTexture->Attach(*this);
+	depthTexture->Attach(*this);
+	//depthTexture.AttachAsDepthBuffer(*this);
+
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		std::cout << "Warning: Failed to create FrameBuffer";
 	UnBind();
@@ -18,7 +25,7 @@ FrameBuffer::FrameBuffer(int width, int height)
 
 FrameBuffer::~FrameBuffer()
 {
-	glDeleteFramebuffers(1, &rendererID);
+	GLCall(glDeleteFramebuffers(1, &rendererID));
 }
 
 void FrameBuffer::Bind() const
@@ -31,9 +38,14 @@ void FrameBuffer::UnBind()
 	GLCall(glBindFramebuffer(GL_FRAMEBUFFER, 0));	
 }
 
-const Texture& FrameBuffer::GetTexture()
+const std::shared_ptr<ColorTexture>& FrameBuffer::GetColorTexture() const
 {
-	return texture;
+	return colorTexture;
+}
+
+const std::shared_ptr<DepthTexture>& FrameBuffer::GetDepthTexture() const
+{
+	return depthTexture;
 }
 
 int FrameBuffer::GetWidth()

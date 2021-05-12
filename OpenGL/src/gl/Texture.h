@@ -3,21 +3,18 @@
 class FrameBuffer;
 class Texture
 {
-private:
-	unsigned int m_RendererID;
-	int m_Width, m_Height;
+protected:
+	int width, height;
 public:
-	Texture(const std::string& path);
 	Texture(int width, int height);
-	Texture(const Texture& other);
-	~Texture();
+	virtual ~Texture();
 
-	void AttachToFrameBuffer(const FrameBuffer& framebuffer);
+	virtual void Attach(const FrameBuffer& framebuffer) const = 0;
 
-	void Bind(unsigned int slot = 0) const;
-	void UnBind() const;
+	virtual void Bind(unsigned int slot = 0) const = 0;
+	virtual void UnBind() const = 0;
 
-	inline int GetWidth() const { return m_Width; }
-	inline int GetHeight() const { return m_Height; }
+	inline int GetWidth() const { return width; }
+	inline int GetHeight() const { return height; }
 };
 

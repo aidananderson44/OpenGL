@@ -1,6 +1,7 @@
 #include "Window.h"
 #include <iostream>
 Window::Window()
+    :lastTime(glfwGetTime())
 {
     if (!glfwInit())
     {
@@ -126,8 +127,9 @@ bool Window::IsClosing() const
     return glfwWindowShouldClose(window);
 }
 
-void Window::SwapBuffers() const
+void Window::Refresh() const
 {
+    lastTime = glfwGetTime();
     glfwSwapBuffers(window);
     glfwPollEvents();
 }
@@ -163,4 +165,17 @@ void Window::AddMouseMoveCallBack(const std::function<void(const Window&, double
 void Window::AddKeyPressCallBack(const std::function<void(const Window&, Key key, Action action)>& callback)
 {
     keyPressCallbacks.push_back(callback);
+}
+
+double Window::DeltaTime()
+{
+    return (glfwGetTime() - lastTime) * 1000;
+}
+
+float Window::UIScale() const
+{
+    GLFWmonitor* primary = glfwGetPrimaryMonitor();
+    float xscale, yscale;
+    glfwGetMonitorContentScale(primary, &xscale, &yscale);
+    return xscale;
 }

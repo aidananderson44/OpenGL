@@ -1,5 +1,7 @@
 #pragma once
 #include "Test.h"
+#include "materials/Quad.h"
+#include "gl/Renderer.h"
 #include <memory>
 namespace test
 {
@@ -19,8 +21,14 @@ namespace test
 		
 
 	private:
+		int width = 100, height = 100;
+		Renderer offScreenRenderer = Renderer::GetOffScreenRenderer(width, height);
+		float resolutionScale = 0.5f;
+		Quad quad;
+		bool renderDepth = false;
 		std::unique_ptr<Test> currentTest = nullptr;
 		std::vector<std::pair<std::string, std::function<std::unique_ptr<Test>()>>> m_Tests;
+		
 	};
 
 	template<typename T>

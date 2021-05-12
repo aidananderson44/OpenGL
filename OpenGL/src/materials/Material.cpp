@@ -1,7 +1,7 @@
 #include "Material.h"
 #include "glm/gtc/matrix_transform.hpp"
 #include "OBJ_Loader/OBJ_Loader.h"
-
+#include <string>
 Material::Material(const std::string& path)
 	: modelMatrix(1.0f)
 {
@@ -123,13 +123,14 @@ const VertexBufferLayout& Material::GetVertexBufferLayout() const
 	return *vertexBufferLayout;
 }
 
-const Texture& Material::GetTexture(const std::string& name) const
+const std::shared_ptr<Texture> Material::GetTexture(const std::string& name) const
 {
 	for (auto& pair : textures)
 	{
 		if (pair.first == name)
 			return pair.second;
 	}
+	return nullptr;
 }
 
 const Shader& Material::GetShader() const
@@ -137,26 +138,47 @@ const Shader& Material::GetShader() const
 	return *shader;
 }
 
-void SetTextureUniform(const Shader& shader, const std::vector<std::pair<std::string, Texture>>& textures)
+void SetTextureUniform(const Shader& shader, const std::vector<std::pair<std::string, std::shared_ptr<Texture>>>& textures)
 {
 	for (unsigned int i = 0; i < textures.size(); i++)
 	{
 		shader.Bind();
-		textures[i].second.Bind(i);
+		textures[i].second->Bind(i);
 		shader.SetUniform1i(textures[i].first, i);
 	}
 }
 
-void Material::AddTexture(const std::string& name, const Texture& texture)
+void Material::Bind() const
 {
-	textures.emplace_back(name, texture);
+	if (shader != nullptr)
+		shader->Bind();
+	SetTextureUniform(*shader, textures);
+}
+
+
+
+void Material::AddTexture(const std::string& name, const std::shared_ptr<Texture> texture)
+{
+	bool set = false;
+	for (auto& texturePair : textures)
+	{
+		if (name == texturePair.first)
+		{
+			texturePair.second = texture;
+			set = true;
+			break;
+		}
+	}
+	if(!set)
+		textures.emplace_back(name, texture);
 	if (shader)
 		SetTextureUniform(*this->shader, textures);
 }
 
 void Material::AddTextureFromPath(const std::string& name, const std::string& texturePath)
 {
-	textures.emplace_back(name, texturePath);
+//	std::pair<std::string, std::shared_ptr<Texture>> p(name, std::make_shared<ColorTexture>(texturePath));
+	textures.emplace_back(name, std::make_shared<ColorTexture>(texturePath));
 	if (shader)
 		SetTextureUniform(*this->shader, textures);
 }
