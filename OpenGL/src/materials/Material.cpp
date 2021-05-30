@@ -1,4 +1,5 @@
 #include "Material.h"
+#include "Edges.h"
 #include "glm/gtc/matrix_transform.hpp"
 #include "OBJ_Loader/OBJ_Loader.h"
 #include <string>
@@ -57,11 +58,11 @@ void Material::EnsureGPUObjects() const
 		EnsureVertexBufferLayout();
 		vertexArray = std::make_unique<VertexArray>();
 		int stride = vertexBufferLayout->GetStride();
-		std::vector<char> data(stride * positions->size());
-		for (unsigned int i = 0; i < positions->size(); i++)
+		std::vector<char> data(stride * Count());
+		for (unsigned int i = 0; i < Count(); i++)
 			FillData(&data[0] + i * stride, i, stride);
 
-		vertexBuffer = std::make_unique<VertexBuffer>(&data[0], stride * positions->size());
+		vertexBuffer = std::make_unique<VertexBuffer>(&data[0], stride * Count());
 		vertexArray->AddBuffer(*vertexBuffer, *vertexBufferLayout);
 		indexBuffer = std::make_unique<IndexBuffer>(indices->data(), indices->size());
 	}
@@ -73,9 +74,7 @@ void Material::EnsureVertexBufferLayout() const
 	if (vertexBufferLayout == nullptr)
 	{
 		vertexBufferLayout = std::make_unique<VertexBufferLayout>();
-		vertexBufferLayout->Push<float>(3);//positions
-		vertexBufferLayout->Push<float>(3);//normals
-		vertexBufferLayout->Push<float>(2);//texture coordinates
+		InitializeBufferLayout(*vertexBufferLayout);
 		AddToBufferLayout(*vertexBufferLayout);
 	}
 }
@@ -177,7 +176,6 @@ void Material::AddTexture(const std::string& name, const std::shared_ptr<Texture
 
 void Material::AddTextureFromPath(const std::string& name, const std::string& texturePath)
 {
-//	std::pair<std::string, std::shared_ptr<Texture>> p(name, std::make_shared<ColorTexture>(texturePath));
 	textures.emplace_back(name, std::make_shared<ColorTexture>(texturePath));
 	if (shader)
 		SetTextureUniform(*this->shader, textures);
@@ -198,14 +196,19 @@ void Material::SetShaderFromPath(const std::string& shaderPath)
 unsigned int Material::Size() const
 {
 	EnsureVertexBufferLayout();
-	return positions->size() * vertexBufferLayout->GetStride();
+	return Count() * vertexBufferLayout->GetStride();
+}
+
+unsigned int Material::Count() const
+{
+	return positions->size();
 }
 
 void Material::FillData(char* data) const
 {
 	EnsureVertexBufferLayout();
 	int stride = vertexBufferLayout->GetStride();
-	for (unsigned int i = 0; i < positions->size(); i++)
+	for (unsigned int i = 0; i < Count(); i++)
 		FillData(data + i * stride, i, stride);
 }
 
@@ -214,12 +217,27 @@ void Material::ResetModelMatrix()
 	modelMatrix = glm::mat4(1.0f);
 }
 
+const Edges& Material::GetEdges() const
+{
+	if (edges == nullptr)
+		edges = std::make_unique<Edges>(*positions, *normals, *indices);
+	static_cast<Material*>(edges.get())->modelMatrix = this->modelMatrix;
+	return *edges;
+}
+
 void Material::FillData(char* data, int index, int end) const
 {
 	ASSERT(end == 8 * sizeof(float));
 	memcpy(data, (&(*positions)[index]), 3 * sizeof(float));
 	memcpy(data + 3 * sizeof(float), (&(*normals)[index]), 3 * sizeof(float));
 	memcpy(data + 6 * sizeof(float), (&(*textureCoordinates)[index]), 2 * sizeof(float));
+}
+
+void Material::InitializeBufferLayout(VertexBufferLayout& layout) const
+{
+	vertexBufferLayout->Push<float>(3);//positions
+	vertexBufferLayout->Push<float>(3);//normals
+	vertexBufferLayout->Push<float>(2);//texture coordinates
 }
 
 

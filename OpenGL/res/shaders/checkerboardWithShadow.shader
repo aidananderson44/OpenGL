@@ -40,7 +40,7 @@ uniform sampler2D shadowMap;
 uniform vec3 lightPosition;// = vec3(-25.0f, 30.0f, 25.0f);
 uniform vec3 lightColor;// = vec3(1.0f, 1.0f, 1.0f);
 const vec3 ambientColor = vec3(0.0f, 1.0f, 0.0f);
-const float ambientStrength = 0.1f;
+const float ambientStrength = 0.05f;
 const float specularPower = 75;
 const float diffusePower = 75;
 
@@ -66,7 +66,7 @@ void main()
 	vec3 reflection = reflect(-lightDirection, norm);
 	vec3 specular = clamp(dot(cameraDirection, reflection), 0, 1) * lightColor * specularPower / (distanceFromLight * distanceFromLight);
 
-	vec3 diffuse = max(dot(norm, lightDirection), 0.0f) * lightColor * diffusePower / (distanceFromLight * distanceFromLight);
+	vec3 diffuse = max(dot(norm, lightDirection), 0.0f) * ambientColor * diffusePower / (distanceFromLight * distanceFromLight);
 	color = vec4(ambient + (diffuse + specular) * (1 - shadow), 1.0f);
 
 

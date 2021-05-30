@@ -12,14 +12,14 @@ Window::Window()
     glfwSetWindowUserPointer(window, this);
     glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
     {
-        Window* thisWindow = reinterpret_cast<Window *>(glfwGetWindowUserPointer(window));
+        Window* thisWindow = static_cast<Window *>(glfwGetWindowUserPointer(window));
         for (auto& callback : thisWindow->resizeCallbacks)
             callback(*thisWindow, width, height);
     });
 
     glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xPos, double yPos)
     {
-        Window* thisWindow = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
+        Window* thisWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
         if (!thisWindow->showingCursor)
         {
             for (auto& callback : thisWindow->mouseMoveCallbacks)
@@ -31,7 +31,7 @@ Window::Window()
 
     glfwSetKeyCallback(window, [](GLFWwindow* window, int glfwKey, int scancode, int glfwAction, int mods)
     {
-        Window* thisWindow = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
+        Window* thisWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
         if (glfwKey == GLFW_KEY_ESCAPE && glfwAction == GLFW_RELEASE)
             thisWindow->SetCursorVisible(true);
         else if (glfwKey == GLFW_KEY_ENTER && glfwAction == GLFW_RELEASE)

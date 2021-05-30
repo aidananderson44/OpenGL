@@ -1,5 +1,5 @@
 #pragma once
-#include "Test.h"
+#include "tests/Test.h"
 
 namespace test
 {

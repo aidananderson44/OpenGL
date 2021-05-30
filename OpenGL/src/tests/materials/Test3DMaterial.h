@@ -1,23 +1,26 @@
 #pragma once
-#include "Test.h"
+#include "tests/Test.h"
 #include <memory>
 #include "glm/glm.hpp"
 
 class Material;
 namespace test
 {
-	class TestTexture2DWithMaterial : public Test
+	class Test3DMaterial : public Test
 	{
 	public:
-		TestTexture2DWithMaterial();
-		~TestTexture2DWithMaterial();
+		Test3DMaterial();
+		~Test3DMaterial();
 
 		void OnUpdate(float deltaTime) override;
 		void OnRender(const Renderer& renderer) override;
 		void OnImGUIRender() override;
+		void SetAspectRatio(float aspectRatio) override;
+		
 	private:
-		const float aspectRatio = 4.0f / 3.0f;
-		glm::vec3 translation;
+		float aspectRatio = 4.0f / 3.0f;
+		float scale = 1.0f;
+		glm::vec3 rotation;
 		glm::mat4 proj, view;
 		std::unique_ptr<Material> material;
 	};

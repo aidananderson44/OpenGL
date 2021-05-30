@@ -10,6 +10,7 @@
 test::Test3DShadows::Test3DShadows()
     :bunny("res/obj/bunny.obj"),
     teapot("res/obj/teapot.obj"),
+    armadillo("res/obj/armadillo.obj"),
     checkerboard(width, height)
 {
     checkerboard.Translate(glm::vec3(-width / 2, 0.0f, height / 2));
@@ -19,10 +20,11 @@ test::Test3DShadows::Test3DShadows()
     bunny.Translate(glm::vec3(0.0f, -0.5f, 0.0f));
     bunny.Scale(glm::vec3(15, 15, 15));
     
+    armadillo.SetShaderFromPath("res/shaders/3DLightAndShadows.shader");
     teapot.SetShaderFromPath("res/shaders/3DLightAndShadows.shader");
     //teapot.SetShaderFromPath("res/shaders/basic3D.shader");
     teapot.Translate(glm::vec3(10, 0, 0));
-
+    armadillo.Translate(glm::vec3(0, 1, 5));
     lightSource.MoveTo(glm::vec3(-25.0f, 30.0f, 25.0f));
     lightSource.LookAt(glm::vec3(3, 0, 0));
  //   lightSource.GetViewMatrix();
@@ -41,9 +43,7 @@ test::Test3DShadows::~Test3DShadows()
 void test::Test3DShadows::OnUpdate(float dt)
 {
     totalTime += dt;
-
-    
-    lightSource.MoveTo(glm::vec3(15 * cos(totalTime / 1000.0f), 15, 15 * sin(totalTime / 1000.0f)));
+    lightSource.MoveTo(glm::vec3(15 * cos(totalTime / 3000.0f), 15 + 5 * sin(totalTime / 1000.0f), 15 * sin(totalTime / 3000.0f)));
     lightSource.LookAt(glm::vec3(0, 0, 0));
     Test::OnUpdate(dt);
 }
@@ -51,19 +51,15 @@ void test::Test3DShadows::OnUpdate(float dt)
 void test::Test3DShadows::OnRender(const Renderer& renderer)
 {
     shadowRenderer.Clear();
-//    GLCall(glEnable(GL_CULL_FACE));
-  //  GLCall(glCullFace(GL_FRONT));
-    
-    
     shadowRenderer.Draw(checkerboard, lightSource);
     shadowRenderer.Draw(bunny, lightSource);
     shadowRenderer.Draw(teapot, lightSource);
+    shadowRenderer.Draw(armadillo, lightSource);
     std::shared_ptr<Texture> depthTexture = shadowRenderer.GetFrameBuffer()->GetDepthTexture();
-    //GLCall(glCullFace(GL_BACK)); // don't forget to reset original culling face
-    //GLCall(glDisable(GL_CULL_FACE));
     renderer.Draw(checkerboard, *viewPoint, lightSource, depthTexture);
     renderer.Draw(bunny, *viewPoint, lightSource, depthTexture);
     renderer.Draw(teapot, *viewPoint, lightSource, depthTexture);
+    renderer.Draw(armadillo, *viewPoint, lightSource, depthTexture);
 }
 
 void test::Test3DShadows::OnImGUIRender()
@@ -75,7 +71,7 @@ void test::Test3DShadows::OnImGUIRender()
 
 void test::Test3DShadows::OnSizeChange(int width, int height)
 {
-    shadowRenderer.SetSize(width * 2, height * 2);
+    shadowRenderer.SetSize((int)(width * shadowMapScale), (int)(height * shadowMapScale));
     Test::OnSizeChange(width, height);
 }
 
@@ -83,6 +79,3 @@ Camera* test::Test3DShadows::GetCamera()
 {
     return &camera;
 }
-
-
-

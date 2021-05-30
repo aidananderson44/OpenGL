@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -22,6 +22,7 @@
     <ClCompile Include="src\LightSource.cpp" />
     <ClCompile Include="src\gl\ColorTexture.cpp" />
     <ClCompile Include="src\gl\DepthTexture.cpp" />
+    <ClCompile Include="src\materials\Edges.cpp" />
     <ClCompile Include="src\materials\Quad.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\gl\FrameBuffer.cpp" />
@@ -33,14 +34,15 @@
     <ClCompile Include="src\gl\Shader.cpp" />
     <ClCompile Include="src\gl\IndexBuffer.cpp" />
     <ClCompile Include="src\gl\Renderer.cpp" />
+    <ClCompile Include="src\tests\materials\Test3DMaterial.cpp" />
+    <ClCompile Include="src\tests\materials\Test3DPerspective.cpp" />
+    <ClCompile Include="src\tests\materials\Test3DPerspectiveWithCamera.cpp" />
+    <ClCompile Include="src\tests\shadows\Test3DShadows.cpp" />
+    <ClCompile Include="src\tests\shadows\TestShadowVolume.cpp" />
     <ClCompile Include="src\tests\Test.cpp" />
-    <ClCompile Include="src\tests\Test3DMaterial.cpp" />
-    <ClCompile Include="src\tests\Test3DPerspective.cpp" />
-    <ClCompile Include="src\tests\Test3DPerspectiveWithCamera.cpp" />
-    <ClCompile Include="src\tests\Test3DShadows.cpp" />
-    <ClCompile Include="src\tests\TestClearColor.cpp" />
-    <ClCompile Include="src\tests\TestTexture2D.cpp" />
-    <ClCompile Include="src\tests\TestTexture2DWithMaterial.cpp" />
+    <ClCompile Include="src\tests\textures\TestClearColor.cpp" />
+    <ClCompile Include="src\tests\textures\TestTexture2D.cpp" />
+    <ClCompile Include="src\tests\textures\TestTexture2DWithMaterial.cpp" />
     <ClCompile Include="src\vendor\glm\detail\glm.cpp" />
     <ClCompile Include="src\vendor\imgui\imgui.cpp" />
     <ClCompile Include="src\vendor\imgui\imgui_demo.cpp" />
@@ -210,6 +212,7 @@
     <ClInclude Include="src\LightSource.h" />
     <ClInclude Include="src\gl\ColorTexture.h" />
     <ClInclude Include="src\gl\DepthTexture.h" />
+    <ClInclude Include="src\materials\Edges.h" />
     <ClInclude Include="src\materials\Quad.h" />
     <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\gl\FrameBuffer.h" />
@@ -220,14 +223,15 @@
     <ClInclude Include="src\gl\Shader.h" />
     <ClInclude Include="src\gl\IndexBuffer.h" />
     <ClInclude Include="src\gl\Renderer.h" />
+    <ClInclude Include="src\tests\materials\Test3DMaterial.h" />
+    <ClInclude Include="src\tests\materials\Test3DPerspective.h" />
+    <ClInclude Include="src\tests\materials\Test3DPerspectiveWithCamera.h" />
+    <ClInclude Include="src\tests\shadows\Test3DShadows.h" />
+    <ClInclude Include="src\tests\shadows\TestShadowVolume.h" />
     <ClInclude Include="src\tests\Test.h" />
-    <ClInclude Include="src\tests\Test3DMaterial.h" />
-    <ClInclude Include="src\tests\Test3DPerspective.h" />
-    <ClInclude Include="src\tests\Test3DPerspectiveWithCamera.h" />
-    <ClInclude Include="src\tests\Test3DShadows.h" />
-    <ClInclude Include="src\tests\TestClearColor.h" />
-    <ClInclude Include="src\tests\TestTexture2D.h" />
-    <ClInclude Include="src\tests\TestTexture2DWithMaterial.h" />
+    <ClInclude Include="src\tests\textures\TestClearColor.h" />
+    <ClInclude Include="src\tests\textures\TestTexture2D.h" />
+    <ClInclude Include="src\tests\textures\TestTexture2DWithMaterial.h" />
     <ClInclude Include="src\vendor\glm\common.hpp" />
     <ClInclude Include="src\vendor\glm\detail\compute_common.hpp" />
     <ClInclude Include="src\vendor\glm\detail\compute_vector_relational.hpp" />
@@ -547,6 +551,11 @@
       <FileType>Document</FileType>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\obj\armadillo.obj">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -618,7 +627,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>src;src\vendor;$(SolutionDir)Dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -636,7 +645,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>src;src\vendor;$(SolutionDir)Dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

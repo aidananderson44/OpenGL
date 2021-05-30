@@ -1,5 +1,5 @@
 #pragma once
-#include "Test.h"
+#include "tests/Test.h"
 #include "gl/VertexBuffer.h"
 #include "gl/VertexBufferLayout.h"
 #include "gl/Texture.h"

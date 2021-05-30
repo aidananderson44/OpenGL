@@ -1,12 +1,13 @@
 #include "TestSelection.h"
 #include"imgui/imgui.h"
-#include "tests/TestClearColor.h"
-#include "tests/TestTexture2D.h"
-#include "tests/TestTexture2DWithMaterial.h"
-#include "tests/Test3DMaterial.h"
-#include "tests/Test3DPerspective.h"
-#include "tests/Test3DPerspectiveWithCamera.h"
-#include "tests/Test3DShadows.h"
+#include "tests/textures/TestClearColor.h"
+#include "tests/textures/TestTexture2D.h"
+#include "tests/textures/TestTexture2DWithMaterial.h"
+#include "tests/materials/Test3DMaterial.h"
+#include "tests/materials/Test3DPerspective.h"
+#include "tests/materials/Test3DPerspectiveWithCamera.h"
+#include "tests/shadows/Test3DShadows.h"
+#include "tests/shadows/TestShadowVolume.h"
 
 test::TestSelection::TestSelection()
 {
@@ -16,7 +17,8 @@ test::TestSelection::TestSelection()
 	this->RegisterTest<test::Test3DMaterial>("3D Material");
 	this->RegisterTest<test::Test3DPerspective>("3D Perspective");
 	this->RegisterTest<test::Test3DPerspectiveWithCamera>("3D Perspective with camera");
-	this->RegisterTest<test::Test3DShadows>("3D Perspective with shadows");
+	this->RegisterTest<test::Test3DShadows>("Shadow Map");
+	this->RegisterTest<test::TestShadowVolume>("Shadow Volume");
 	quad.SetShaderFromPath("res/shaders/basicMaterial.shader");
 }
 
@@ -31,8 +33,6 @@ void test::TestSelection::OnRender(const Renderer& renderer)
 {
 	if (currentTest != nullptr)
 	{
-		//currentTest->OnRender(renderer);
-		
 		offScreenRenderer.Clear();
 		currentTest->OnRender(offScreenRenderer);
 
@@ -62,7 +62,7 @@ void test::TestSelection::OnImGUIRender()
 	else
 		currentTest->OnImGUIRender();
 	if(ImGui::SliderFloat("ResolutionScale", &resolutionScale, 0.01f, 2.0f, "%.3f", 32))
-		offScreenRenderer.SetSize(width * resolutionScale, height * resolutionScale);
+		offScreenRenderer.SetSize((int)(width * resolutionScale), (int)(height * resolutionScale));
 	ImGui::Checkbox("Use Depth Buffer", &renderDepth);
 }
 
@@ -72,7 +72,7 @@ void test::TestSelection::OnSizeChange(int width, int height)
 	this->height = height;
 	if (currentTest != nullptr)
 		currentTest->OnSizeChange(width, height);
-	offScreenRenderer.SetSize(width * resolutionScale, height * resolutionScale);
+	offScreenRenderer.SetSize((int)(width * resolutionScale), (int)(height * resolutionScale));
 
 }
 

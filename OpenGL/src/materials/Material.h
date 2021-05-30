@@ -11,6 +11,7 @@
 #include "gl/Texture.h"
 #include "gl/Shader.h"
 
+class Edges;
 class Material
 {
 public:
@@ -33,13 +34,16 @@ public:
 	void AddTextureFromPath(const std::string& name, const std::string& texturePath);
 	void SetShader(const Shader &shader);
 	void SetShaderFromPath(const std::string& shaderPath);
-	unsigned int Size() const;
+	virtual unsigned int Size() const;
+	virtual unsigned int Count() const;
 	void FillData(char* data) const;
 	void ResetModelMatrix();
+	const Edges& GetEdges() const;
 	
 protected:
 	virtual void AddToBufferLayout(VertexBufferLayout& layout)const {}
 	virtual void FillData(char* data, int index, int end) const;
+	virtual void InitializeBufferLayout(VertexBufferLayout& layout) const;
 	std::unique_ptr<std::vector<glm::vec3>> positions;
 	std::unique_ptr<std::vector<glm::vec3>> normals;
 	std::unique_ptr<std::vector<glm::vec2>> textureCoordinates;
@@ -51,10 +55,10 @@ private:
 	mutable std::unique_ptr<IndexBuffer> indexBuffer = nullptr;
 	mutable std::unique_ptr<VertexBuffer> vertexBuffer = nullptr;
 	mutable std::unique_ptr<VertexBufferLayout> vertexBufferLayout = nullptr;
-
+	mutable std::unique_ptr<Edges> edges;
 	std::unique_ptr<Shader> shader;
 	std::vector<std::pair<std::string, std::shared_ptr<Texture>>> textures;
-
+	
 	glm::mat4 modelMatrix;
 
 };

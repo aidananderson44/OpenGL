@@ -1,5 +1,5 @@
 #pragma once
-#include "Test.h"
+#include "tests/Test.h"
 #include "materials/Checkerboad.h"
 #include <memory>
 #include "glm/glm.hpp"
@@ -25,9 +25,10 @@ namespace test
 		float totalTime = 0;
 		bool viewFromLight = false;
 		float scale = 1.0f;
+		float shadowMapScale = 2.0f;
 		int width = 100, height = 100;
 		Checkerboad checkerboard;
-		Material bunny, teapot;
+		Material bunny, teapot, armadillo;
 		Camera camera;
 		LightSource lightSource;
 		Renderer shadowRenderer = Renderer::GetOffScreenRenderer(width, height);
