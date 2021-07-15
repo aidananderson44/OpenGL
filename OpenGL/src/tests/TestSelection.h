@@ -23,7 +23,7 @@ namespace test
 	private:
 		int width = 100, height = 100;
 		Renderer offScreenRenderer = Renderer::GetOffScreenRenderer(width, height);
-		float resolutionScale = 0.5f;
+		float resolutionScale = 1.0f;
 		Quad quad;
 		bool renderDepth = false;
 		std::unique_ptr<Test> currentTest = nullptr;

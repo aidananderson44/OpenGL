@@ -5,7 +5,6 @@
 #include "glm/glm.hpp"
 #include "FrameBuffer.h"
 
-
 class VertexArray;
 class IndexBuffer;
 class Shader;
